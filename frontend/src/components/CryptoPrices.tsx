@@ -13,7 +13,7 @@ const CryptoPrices: React.FC = () => {
   useEffect(() => {
     const fetchPrices = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/crypto/prices');
+        const response = await axios.get('https://crypto-currencyalert.onrender.com/api/crypto/prices');
         setPrices(response.data);
         console.log(response.data);
       } catch (error) {

@@ -12,7 +12,7 @@ const Alerts: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/crypto/alerts', { email, crypto, condition, threshold });
+      await axios.post('https://crypto-currencyalert.onrender.com/api/crypto/alerts', { email, crypto, condition, threshold });
       setMessage('Alert created successfully!');
       setEmail('');
       setCrypto('bitcoin');
