@@ -19,10 +19,18 @@ const axios_1 = __importDefault(require("axios"));
 const COINGECKO_API = 'https://api.coingecko.com/api/v3/simple/price';
 const fetchCryptoPrices = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // Check if data exists in the cache
+        const cachedPrices = yield (0, cache_1.getCache)('crypto_prices');
+        if (cachedPrices) {
+            console.log('Cache hit: Serving data from Redis');
+            return res.json(cachedPrices); // Serve data from cache
+        }
+        console.log('Cache miss: Fetching data from CoinGecko API');
         const response = yield axios_1.default.get(COINGECKO_API, {
             params: { ids: 'bitcoin,ethereum', vs_currencies: 'usd' },
         });
-        yield (0, cache_1.setCache)('crypto_prices', response.data, 60);
+        // Cache the fetched data
+        yield (0, cache_1.setCache)('crypto_prices', response.data, 60); // Cache for 60 seconds
         res.json(response.data);
     }
     catch (error) {

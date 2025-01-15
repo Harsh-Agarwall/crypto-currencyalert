@@ -9,9 +9,11 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const node_cron_1 = __importDefault(require("node-cron"));
 const cryptoController_1 = require("./controllers/cryptoController");
 const alerts_1 = require("./services/alerts");
+const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+app.use((0, cors_1.default)());
 const PORT = process.env.PORT || 5000;
 // MongoDB Connection
 mongoose_1.default

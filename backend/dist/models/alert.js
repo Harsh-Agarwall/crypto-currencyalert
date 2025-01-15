@@ -39,5 +39,6 @@ const AlertSchema = new mongoose_1.Schema({
     crypto: { type: String, required: true },
     condition: { type: String, enum: ['greater', 'less'], required: true },
     threshold: { type: Number, required: true },
+    triggered: { type: Boolean, default: false },
 });
 exports.default = mongoose_1.default.model('Alert', AlertSchema);

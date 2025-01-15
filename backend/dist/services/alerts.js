@@ -23,9 +23,11 @@ const checkAndSendAlerts = () => __awaiter(void 0, void 0, void 0, function* () 
     if (!prices)
         return;
     for (const alert of alerts) {
-        const { email, crypto, condition, threshold } = alert;
+        const { email, crypto, condition, threshold, triggered } = alert;
         const currentPrice = (_a = prices[crypto]) === null || _a === void 0 ? void 0 : _a.usd;
         if (!currentPrice)
+            continue;
+        if (triggered)
             continue;
         let sendAlert = false;
         if (condition === 'greater' && currentPrice > threshold) {
@@ -42,6 +44,8 @@ const checkAndSendAlerts = () => __awaiter(void 0, void 0, void 0, function* () 
                 text: `The price of ${crypto.toUpperCase()} is now ${currentPrice}, meeting your alert condition.`,
             });
             console.log(`Alert sent to ${email} for ${crypto}`);
+            alert.triggered = true;
+            yield alert.save();
         }
     }
 });

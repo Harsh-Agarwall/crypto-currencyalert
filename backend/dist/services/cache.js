@@ -11,13 +11,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCache = exports.setCache = void 0;
 const redis_1 = require("redis");
-const redisport = 6379;
-const redisHost = '127.0.0.1'; // Default Redis host is localhost
+const dotenv = require('dotenv');
+dotenv.config();
+const redisUrl = process.env.REDIS_URL;
+if (!redisUrl) {
+    throw new Error('REDIS_URL environment variable is not set');
+}
+// const redisport = 6379;
+// const redisHost = '127.0.0.1'; // Default Redis host is localhost
 const redisClient = (0, redis_1.createClient)({
-    socket: {
-        host: redisHost,
-        port: redisport,
-    },
+    url: redisUrl,
 });
 // Handle Redis connection errors
 redisClient.on('error', (err) => console.error('Redis Client Error', err));
